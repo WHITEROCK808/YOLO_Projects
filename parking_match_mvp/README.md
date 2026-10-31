@@ -34,11 +34,22 @@ python import_anpr_csv.py ../yolo_projects/license-plate-recognition/plates.csv
 python server.py
 ```
 
-再安裝原 repo 車牌辨識需要的套件，並準備訓練好的 `best.pt`：
+再安裝原 repo 車牌辨識需要的套件：
 
 ```powershell
 pip install ultralytics opencv-python easyocr
-python camera_anpr.py --model C:\path\to\best.pt --source 0
 ```
 
-`camera_anpr.py` 會把攝影機畫面中的車牌交給 EasyOCR，再自動 POST 到本地 dashboard；辨識結果會在「最近辨識」出現。原 repo 沒有附 `best.pt`，因此要先用它的 notebook 訓練或取得車牌偵測權重。
+下載公開的車牌偵測模型：
+
+```powershell
+python download_model.py
+```
+
+它會在 `parking_match_mvp` 目錄建立 `best.pt`。接著啟動攝影機：
+
+```powershell
+python camera_anpr.py --model .\best.pt --source 0
+```
+
+`camera_anpr.py` 會把攝影機畫面中的車牌交給 EasyOCR，再自動 POST 到本地 dashboard；辨識結果會在「最近辨識」出現。模型來源與授權請在正式商用前重新確認；目前建議先用於內部測試與概念驗證。
